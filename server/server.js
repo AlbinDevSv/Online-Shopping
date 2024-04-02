@@ -1,7 +1,12 @@
 const express = require("express");
 
-const app = express;
+const userRouter = require("./resources/users/users.router");
+const authRouter = require("./resources/auth/auth.router");
 
-app.get("/users", (req, res) => {});
+const app = express();
+
+//Routes
+app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
 
 app.listen(3000, () => console.log("Server is up and running...✅"));
