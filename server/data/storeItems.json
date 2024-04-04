@@ -1,0 +1,4 @@
+[
+    [1, { "priceInKronor": 10, "name": "Red", "description": "The Color Red" }],
+    [2, { "priceInKronor": 10, "name": "Red", "description": "The Color Red" }]
+]

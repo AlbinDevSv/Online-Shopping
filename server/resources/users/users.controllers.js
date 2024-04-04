@@ -1,5 +1,4 @@
 const readUsers = require("../../utils/readUsers");
-const fs = require("fs").promises;
 
 const getUsers = async (req, res) => {
     const users = await readUsers();
