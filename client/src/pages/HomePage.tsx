@@ -10,17 +10,10 @@ const storeItems = async () => {
     console.log(data);
 };
 
-const stripeCheckout = async () => {
-    const response = await fetch("http://localhost:3000/api/stripe/checkout", {
+const stripeCheckout = () => {
+    fetch("http://localhost:3000/api/stripe/create-checkout-session", {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ items: [] }),
     });
-
-    const data = await response.json();
-    console.log(data);
 };
 
 const HomePage = () => {
@@ -28,7 +21,7 @@ const HomePage = () => {
         <main>
             <button
                 style={{ width: "200px", height: "100px" }}
-                onClick={() => storeItems()}
+                onClick={() => stripeCheckout()}
             >
                 Checkout
             </button>
