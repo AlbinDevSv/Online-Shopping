@@ -11,6 +11,7 @@ const createCheckoutSession = async (req, res) => {
     const session = await stripe.checkout.sessions.create({
         line_items: [
             {
+                // Skicka med en lista med produkter som ska köpas
                 price_data: {
                     currency: "USD",
                     product_data: {
@@ -25,8 +26,7 @@ const createCheckoutSession = async (req, res) => {
         success_url: "http://localhost:5173/success",
         cancel_url: "http://localhost:5173/cancel",
     });
-
-    res.redirect(303, session.url);
+    res.send(JSON.stringify({ url: session.url }));
 };
 
 module.exports = { storeItems, createCheckoutSession };

@@ -1,3 +1,5 @@
+import Button from "react-bootstrap/Button";
+
 const storeItems = async () => {
     const response = await fetch(
         "http://localhost:3000/api/stripe/storeItems",
@@ -10,10 +12,21 @@ const storeItems = async () => {
     console.log(data);
 };
 
-const stripeCheckout = () => {
-    fetch("http://localhost:3000/api/stripe/create-checkout-session", {
+const stripeCheckout = async () => {
+    await fetch("http://localhost:3000/api/stripe/create-checkout-session", {
         method: "POST",
-    });
+        headers: { "Content-Type": "application/json" },
+    })
+        .then((response) => {
+            return response.json();
+        })
+        .then((response) => {
+            console.log(response.url);
+
+            if (response.url) {
+                window.location.assign(response.url);
+            }
+        });
 };
 
 const HomePage = () => {
@@ -25,6 +38,10 @@ const HomePage = () => {
             >
                 Checkout
             </button>
+
+            <Button onClick={stripeCheckout} variant="primary">
+                Dark
+            </Button>
         </main>
     );
 };
