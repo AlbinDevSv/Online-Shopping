@@ -1,4 +1,6 @@
 [
-    [1, { "priceInKronor": 10, "name": "Red", "description": "The Color Red" }],
-    [2, { "priceInKronor": 10, "name": "Red", "description": "The Color Red" }]
+    { "id": "price_1P30gfBfJpeWlVGVcU4qsZZg", "title": "Robocop" },
+    { "id": "price_1P30flBfJpeWlVGVdlJkjuhn", "title": "Robocop" },
+    { "id": "price_1P30gfBfJpeWlVGVcU4qsZZg", "title": "Robocop" },
+    { "id": "price_1P30gfBfJpeWlVGVcU4qsZZg", "title": "Robocop" }
 ]

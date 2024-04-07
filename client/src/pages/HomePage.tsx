@@ -1,16 +1,15 @@
+import { useEffect, useState } from "react";
+import {
+    Card,
+    CardBody,
+    CardHeader,
+    CardImg,
+    CardText,
+    CardTitle,
+    Col,
+    Row,
+} from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-
-const storeItems = async () => {
-    const response = await fetch(
-        "http://localhost:3000/api/stripe/storeItems",
-        {
-            method: "GET",
-        }
-    );
-
-    const data = await response.json();
-    console.log(data);
-};
 
 const stripeCheckout = async () => {
     await fetch("http://localhost:3000/api/stripe/create-checkout-session", {
@@ -30,19 +29,45 @@ const stripeCheckout = async () => {
 };
 
 const HomePage = () => {
-    return (
-        <main>
-            <button
-                style={{ width: "200px", height: "100px" }}
-                onClick={() => stripeCheckout()}
-            >
-                Checkout
-            </button>
+    const [products, setProducts] = useState();
+    useEffect(() => {
+        fetch("http://localhost:3000/api/stripe/list-all-products")
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setProducts(data);
+            });
+    }, []);
 
+    return (
+        <>
+            <Row md={3} className="g-4">
+                {products?.map((item, index) => {
+                    return (
+                        <Col align="center" key={index}>
+                            <Card style={{ width: "14rem" }}>
+                                <CardImg
+                                    src={item.images}
+                                    style={{
+                                        padding: "1rem",
+                                        borderRadius: "20px",
+                                    }}
+                                ></CardImg>
+                                <CardHeader>
+                                    <CardTitle>{item.name}</CardTitle>
+                                </CardHeader>
+                                <CardBody>
+                                    <Button>Add To Cart</Button>
+                                </CardBody>
+                            </Card>
+                        </Col>
+                    );
+                })}
+            </Row>
             <Button onClick={stripeCheckout} variant="primary">
                 Dark
             </Button>
-        </main>
+        </>
     );
 };
 
