@@ -13,6 +13,7 @@ export const CartContext = createContext({
     items: [],
     getProductQuantity: (id) => {},
     addOneToCart: (id) => {},
+    removeOneFromCart: (id) => {},
     getTotalCost: () => {},
 });
 
@@ -56,6 +57,21 @@ export function CartProvider({ children }) {
         }
     }
 
+    async function removeOneFromCart(id: string) {
+        const quantity = getProductQuantity(id);
+        if (quantity > 0) {
+            setCartProducts(
+                cartProducts?.map((product) =>
+                    product.id === id
+                        ? { ...product, quantity: product.quantity - 1 }
+                        : product
+                )
+            );
+        } else {
+            return console.log("No Quantity Found");
+        }
+    }
+
     // function removeOneFromCart(id: string) {
     //     const quantity = getProductQuantity(id);
     //     if (quantity == 1) {
@@ -90,7 +106,7 @@ export function CartProvider({ children }) {
         items: cartProducts,
         getProductQuantity,
         addOneToCart,
-        // removeOneFromCart,
+        removeOneFromCart,
         // deleteFromCart,
         getTotalCost,
     };

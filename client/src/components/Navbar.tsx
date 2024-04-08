@@ -58,7 +58,7 @@ const NavbarComponent = () => {
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} fullscreen={"md-down"}>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         <h1>Shopping Cart</h1>
@@ -73,9 +73,18 @@ const NavbarComponent = () => {
                                     <img
                                         src={`${item.image}`}
                                         alt=""
-                                        className="w-50"
+                                        style={{
+                                            width: "25%",
+                                            height: "6rem",
+                                        }}
                                     />
-                                    <div className="m-3">
+                                    <div
+                                        style={{
+                                            width: "50%",
+                                            height: "6rem",
+                                            marginLeft: "2rem",
+                                        }}
+                                    >
                                         <h4>{item.name}</h4>
                                         <p>Quantity: {item.quantity}</p>
                                         <p>
@@ -89,10 +98,13 @@ const NavbarComponent = () => {
                         ))}
                     </ul>
                 </Modal.Body>
+                <Modal.Title>
+                    <h1 style={{ textAlign: "end", marginRight: "20px" }}>
+                        Total: {totalCost} SEK
+                    </h1>
+                </Modal.Title>
                 <Modal.Footer>
-                    <Modal.Title>
-                        <h1>Total: {totalCost} SEK</h1>
-                    </Modal.Title>
+                    <Button>Checkout</Button>
                 </Modal.Footer>
             </Modal>
         </>

@@ -52,7 +52,13 @@ const ProductCard = (props) => {
                     ) : (
                         <>
                             <Container className="d-flex justify-content-center">
-                                <Button>-</Button>
+                                <Button
+                                    onClick={() =>
+                                        cart.removeOneFromCart(props.item.id)
+                                    }
+                                >
+                                    -
+                                </Button>
                                 <Card.Subtitle className=" w-25 text-center my-auto">
                                     <h2>{productQuantity}</h2>
                                 </Card.Subtitle>
