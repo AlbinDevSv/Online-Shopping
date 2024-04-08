@@ -1,4 +1,18 @@
 [
-    [1, { "priceInKronor": 10, "name": "Red", "description": "The Color Red" }],
-    [2, { "priceInKronor": 10, "name": "Red", "description": "The Color Red" }]
+    {
+        "id": "price_1P30gfBfJpeWlVGVcU4qsZZg",
+        "title": "Robocop",
+        "price": 200
+    },
+    {
+        "id": "price_1P30flBfJpeWlVGVdlJkjuhn",
+        "title": "R2-D2",
+        "price": 400
+    },
+    {
+        "id": "price_1P30fTBfJpeWlVGVKcNklQbv",
+        "title": "T-3000",
+        "price": 20
+    },
+    { "id": "price_1P30eoBfJpeWlVGVXXQM8idC", "title": "T-800", "price": 200 }
 ]

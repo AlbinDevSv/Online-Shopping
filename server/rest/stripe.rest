@@ -1,0 +1,7 @@
+GET http://localhost:3000/api/stripe/list-all-products
+
+###
+POST http://localhost:3000/api/stripe/list-product
+Content-Type: application/json
+
+{"id": "prod_PsmEv8NVFZoqMx"}
