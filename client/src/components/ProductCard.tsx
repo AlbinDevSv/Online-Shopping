@@ -23,9 +23,7 @@ const ProductCard = (props) => {
         }
 
         fetchProductData();
-    }, [props.id]);
-
-    console.log(productQuantity);
+    }, [props.id, props.item.id]);
 
     return (
         <>
@@ -42,10 +40,7 @@ const ProductCard = (props) => {
                 </Card.Header>
                 <Card.Body>
                     <Card.Subtitle>
-                        <p>
-                            {product?.price / 100}
-                            kr
-                        </p>
+                        <p>{product?.price / 100} kr</p>
                     </Card.Subtitle>
                     {productQuantity === 0 ? (
                         <Button

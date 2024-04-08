@@ -3,7 +3,9 @@ import getProductData from "../assets/getProductData";
 
 interface cartProductValues {
     id: string;
+    image: [];
     name: string;
+    price: number;
     quantity: number;
 }
 
@@ -11,6 +13,7 @@ export const CartContext = createContext({
     items: [],
     getProductQuantity: (id) => {},
     addOneToCart: (id) => {},
+    getTotalCost: () => {},
 });
 
 export function CartProvider({ children }) {
@@ -30,13 +33,15 @@ export function CartProvider({ children }) {
         const quantity = getProductQuantity(id);
         if (quantity === 0) {
             const productData = await getProductData(id);
-            console.log(id);
+            console.log(productData);
 
             setCartProducts([
                 ...cartProducts,
                 {
                     id: id,
+                    image: productData.image[0],
                     name: productData.name,
+                    price: productData.price,
                     quantity: 1,
                 },
             ]);
@@ -74,13 +79,12 @@ export function CartProvider({ children }) {
     //     );
     // }
 
-    // function getTotalCost() {
-    //     let totalCost = 0;
-    //     cartProducts?.map((cartItem) => {
-    //         const productData = getProductData(cartItem.id);
-    //         totalCost += productData.price * cardItem.quantity;
-    //     });
-    // }
+    function getTotalCost() {
+        let totalCost = 0;
+        cartProducts?.map((cartItem) => {
+            totalCost += cartItem.price * cartItem.quantity;
+        });
+    }
 
     const contextValue = {
         items: cartProducts,
@@ -88,7 +92,7 @@ export function CartProvider({ children }) {
         addOneToCart,
         // removeOneFromCart,
         // deleteFromCart,
-        // getTotalCost,
+        getTotalCost,
     };
     return (
         <CartContext.Provider value={contextValue}>
