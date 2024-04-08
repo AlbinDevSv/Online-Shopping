@@ -1,22 +1,17 @@
-import { Button, Container, Navbar } from "react-bootstrap";
 import { Outlet } from "react-router-dom";
+import NavbarComponent from "../components/Navbar";
+import CartProvider from "../components/CartContext";
+import { Container } from "react-bootstrap";
 
 export const Layout = () => {
     return (
         <>
-            <Container>
-                <Navbar>
-                    <Navbar.Brand href="/">Online Shopping</Navbar.Brand>
-                    <Navbar.Toggle />
-                    <Navbar.Collapse className="justify-content-end">
-                        <Button>Cart</Button>
-                    </Navbar.Collapse>
-                </Navbar>
-            </Container>
-
-            <main>
+            <CartProvider>
+                <Container>
+                    <NavbarComponent></NavbarComponent>
+                </Container>
                 <Outlet />
-            </main>
+            </CartProvider>
         </>
     );
 };
