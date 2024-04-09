@@ -3,49 +3,41 @@ import getProductData from "../assets/getProductData";
 import { useContext, useEffect, useState } from "react";
 import { CartContext } from "./CartContext";
 
-interface CartProductValues {
+interface productValues {
     id: string;
+    image: string;
     name: string;
-    image: [string];
     price: number;
 }
+interface Iprops {
+    productData: productValues;
+}
 
-const ProductCard = (props) => {
-    const [product, setProduct] = useState<CartProductValues>();
+const ProductCard = (props: Iprops) => {
     const cart = useContext(CartContext);
-    const productQuantity = cart.getProductQuantity(props.item.id);
-
-    useEffect(() => {
-        async function fetchProductData() {
-            const item = await getProductData(props.item.id);
-
-            setProduct(item);
-        }
-
-        fetchProductData();
-    }, [props.id, props.item.id]);
+    const productQuantity = cart.getProductQuantity(props.productData.id);
 
     return (
         <>
             <Card style={{ width: "14rem" }}>
                 <Card.Img
-                    src={product?.image}
+                    src={props.productData.image}
                     style={{
                         padding: "1rem",
                         borderRadius: "20px",
                     }}
                 ></Card.Img>
                 <Card.Header>
-                    <Card.Title>{product?.name}</Card.Title>
+                    <Card.Title>{props.productData.name}</Card.Title>
                 </Card.Header>
                 <Card.Body>
                     <Card.Subtitle>
-                        <p>{product?.price / 100} kr</p>
+                        <p>{props.productData.price / 100} kr</p>
                     </Card.Subtitle>
                     {productQuantity === 0 ? (
                         <Button
                             variant="primary"
-                            onClick={() => cart.addOneToCart(props.item.id)}
+                            onClick={() => cart.addOneToCart(props.productData)}
                         >
                             Add To Cart
                         </Button>
@@ -54,7 +46,9 @@ const ProductCard = (props) => {
                             <Container className="d-flex justify-content-center">
                                 <Button
                                     onClick={() =>
-                                        cart.removeOneFromCart(props.item.id)
+                                        cart.removeOneFromCart(
+                                            props.productData
+                                        )
                                     }
                                 >
                                     -
@@ -64,7 +58,7 @@ const ProductCard = (props) => {
                                 </Card.Subtitle>
                                 <Button
                                     onClick={() =>
-                                        cart.addOneToCart(props.item.id)
+                                        cart.addOneToCart(props.productData)
                                     }
                                 >
                                     +
