@@ -1,19 +1,9 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Button, Navbar, Nav, Modal, Container } from "react-bootstrap";
-import { FaTrashAlt } from "react-icons/fa";
+
 import { CartContext } from "./CartContext";
-
-interface cartProductValues {
-    product: productValues;
-    quantity: number;
-}
-
-interface productValues {
-    id: string;
-    image: string;
-    name: string;
-    price: number;
-}
+import CartModal from "./CartModal";
+import { NavLink, Router } from "react-router-dom";
 
 const NavbarComponent = () => {
     const cart = useContext(CartContext);
@@ -23,11 +13,28 @@ const NavbarComponent = () => {
 
     return (
         <>
-            <Navbar expand="sm">
+            <Navbar
+                expand="sm"
+                style={{
+                    marginBottom: "20px",
+                    marginTop: "20px",
+                    backgroundColor: "rgb(219, 219, 219)",
+                    paddingLeft: "20px",
+                    paddingRight: "20px",
+                    border: "1px solid grey",
+                    borderRadius: "5px",
+                }}
+            >
                 <Navbar.Brand href="/">Online Shopping</Navbar.Brand>
                 <Navbar.Toggle />
+
                 <Navbar.Collapse className="justify-content-end">
                     <Nav>
+                        <NavLink to="/login">
+                            <Button style={{ marginRight: "20px" }}>
+                                Login
+                            </Button>
+                        </NavLink>
                         <Button
                             onClick={() => {
                                 handleShow();
@@ -39,60 +46,7 @@ const NavbarComponent = () => {
                 </Navbar.Collapse>
             </Navbar>
             <Modal show={show} onHide={handleClose} fullscreen={"md-down"}>
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        <h1>Shopping Cart</h1>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <h1>Items:</h1>
-                    <ul>
-                        {cart.items.map((item: cartProductValues, index) => (
-                            <Modal.Body key={index}>
-                                <Container className="d-flex">
-                                    <img
-                                        src={`${item.product.image}`}
-                                        alt=""
-                                        style={{
-                                            width: "25%",
-                                            height: "6rem",
-                                        }}
-                                    />
-                                    <div
-                                        style={{
-                                            width: "50%",
-                                            height: "6rem",
-                                            marginLeft: "2rem",
-                                        }}
-                                    >
-                                        <h4>{item.product.name}</h4>
-                                        <p>Quantity: {item.quantity}</p>
-                                        <p>
-                                            Price:{" "}
-                                            {(item.product.price / 100) *
-                                                item.quantity}{" "}
-                                            SEK
-                                        </p>
-                                    </div>
-                                    <FaTrashAlt
-                                        onClick={() =>
-                                            cart.deleteFromCart(item.product.id)
-                                        }
-                                        style={{ fontSize: "20px" }}
-                                    />
-                                </Container>
-                            </Modal.Body>
-                        ))}
-                    </ul>
-                </Modal.Body>
-                <Modal.Title>
-                    <h1 style={{ textAlign: "end", marginRight: "20px" }}>
-                        Total: {cart.getTotalCost()} SEK
-                    </h1>
-                </Modal.Title>
-                <Modal.Footer>
-                    <Button>Checkout</Button>
-                </Modal.Footer>
+                <CartModal></CartModal>
             </Modal>
         </>
     );
