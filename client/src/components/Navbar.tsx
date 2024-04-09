@@ -1,13 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-    Button,
-    Navbar,
-    Nav,
-    Modal,
-    Container,
-    ModalBody,
-} from "react-bootstrap";
-
+import React, { useContext, useState } from "react";
+import { Button, Navbar, Nav, Modal, Container } from "react-bootstrap";
+import { FaTrashAlt } from "react-icons/fa";
 import { CartContext } from "./CartContext";
 
 interface cartProductValues {
@@ -81,6 +74,12 @@ const NavbarComponent = () => {
                                             SEK
                                         </p>
                                     </div>
+                                    <FaTrashAlt
+                                        onClick={() =>
+                                            cart.deleteFromCart(item.product.id)
+                                        }
+                                        style={{ fontSize: "20px" }}
+                                    />
                                 </Container>
                             </Modal.Body>
                         ))}

@@ -52,21 +52,15 @@ const HomePage = () => {
         };
         fetchData();
     }, []);
-    console.log(products);
 
     return (
         <>
             <Row md={3} className="g-4">
-                {products?.map(
-                    (productData, index) => (
-                        console.log(productData),
-                        (
-                            <Col align="center" key={index}>
-                                <ProductCard productData={productData} />
-                            </Col>
-                        )
-                    )
-                )}
+                {products?.map((productData, index) => (
+                    <Col align="center" key={index}>
+                        <ProductCard productData={productData} />
+                    </Col>
+                ))}
             </Row>
             <Button onClick={stripeCheckout} variant="primary">
                 Dark

@@ -4,6 +4,7 @@ interface cartContextValues {
     items: cartProductValues[];
     getProductQuantity: (id: string) => number;
     addOneToCart: (productData: productValues) => void;
+    deleteFromCart: (id: string) => void;
     removeOneFromCart: (productData: productValues) => void;
     getTotalCost: () => number;
 }
@@ -24,6 +25,7 @@ export const CartContext = createContext<cartContextValues>({
     items: [],
     getProductQuantity: () => 0,
     addOneToCart: () => {},
+    deleteFromCart: () => {},
     removeOneFromCart: () => {},
     getTotalCost: () => 0,
 });
@@ -68,7 +70,7 @@ export function CartProvider({ children }: PropsWithChildren) {
 
     async function removeOneFromCart(productData: productValues) {
         const quantity = getProductQuantity(productData.id);
-        if (quantity > 0) {
+        if (quantity != 1) {
             setItems(
                 items?.map((item) =>
                     item.product.id === productData.id
@@ -85,6 +87,7 @@ export function CartProvider({ children }: PropsWithChildren) {
         const newItems = items.filter((item) => {
             return item.product.id != id;
         });
+
         setItems(newItems);
     }
 
@@ -102,7 +105,7 @@ export function CartProvider({ children }: PropsWithChildren) {
         getProductQuantity,
         addOneToCart,
         removeOneFromCart,
-        // deleteFromCart,
+        deleteFromCart,
         getTotalCost,
     };
     return (
