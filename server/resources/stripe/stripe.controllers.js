@@ -21,7 +21,7 @@ const createCheckoutSession = async (req, res) => {
 
 // Returns all products in a list
 const listAllProducts = async (req, res) => {
-    products = await stripe.products.list({});
+    products = await stripe.products.list({ expand: ["data.default_price"] });
 
     res.status(200).json(products.data);
 };

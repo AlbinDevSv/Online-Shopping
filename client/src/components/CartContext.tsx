@@ -1,28 +1,38 @@
-import { createContext, useState } from "react";
-import getProductData from "../assets/getProductData";
+import { PropsWithChildren, createContext, useState } from "react";
+
+interface cartContextValues {
+    items: cartProductValues[];
+    getProductQuantity: (id: string) => number;
+    addOneToCart: (productData: productValues) => void;
+    removeOneFromCart: (productData: productValues) => void;
+    getTotalCost: () => number;
+}
 
 interface cartProductValues {
-    id: string;
-    image: [];
-    name: string;
-    price: number;
+    product: productValues;
     quantity: number;
 }
 
-export const CartContext = createContext({
+interface productValues {
+    id: string;
+    image: string;
+    name: string;
+    price: number;
+}
+
+export const CartContext = createContext<cartContextValues>({
     items: [],
-    getProductQuantity: (id) => {},
-    addOneToCart: (id) => {},
-    removeOneFromCart: (id) => {},
-    getTotalCost: () => {},
+    getProductQuantity: () => 0,
+    addOneToCart: () => {},
+    removeOneFromCart: () => {},
+    getTotalCost: () => 0,
 });
 
-export function CartProvider({ children }) {
-    const [cartProducts, setCartProducts] = useState<cartProductValues[]>([]);
-
+export function CartProvider({ children }: PropsWithChildren) {
+    const [items, setItems] = useState<cartProductValues[]>([]);
     function getProductQuantity(id: string) {
-        const quantity = cartProducts?.find(
-            (product) => product.id === id
+        const quantity = items?.find(
+            (item) => item.product.id === id
         )?.quantity;
         if (quantity === undefined) {
             return 0;
@@ -30,80 +40,65 @@ export function CartProvider({ children }) {
         return quantity;
     }
 
-    async function addOneToCart(id: string) {
-        const quantity = getProductQuantity(id);
+    async function addOneToCart(productData: productValues) {
+        const quantity = getProductQuantity(productData.id);
         if (quantity === 0) {
-            const productData = await getProductData(id);
-            console.log(productData);
-
-            setCartProducts([
-                ...cartProducts,
+            setItems([
+                ...items,
                 {
-                    id: id,
-                    image: productData.image[0],
-                    name: productData.name,
-                    price: productData.price,
+                    product: {
+                        id: productData.id,
+                        image: productData.image,
+                        name: productData.name,
+                        price: productData.price,
+                    },
                     quantity: 1,
                 },
             ]);
         } else {
-            setCartProducts(
-                cartProducts?.map((product) =>
-                    product.id === id
-                        ? { ...product, quantity: product.quantity + 1 }
-                        : product
+            setItems(
+                items?.map((item) =>
+                    item.product.id === productData.id
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
                 )
             );
         }
     }
 
-    async function removeOneFromCart(id: string) {
-        const quantity = getProductQuantity(id);
+    async function removeOneFromCart(productData: productValues) {
+        const quantity = getProductQuantity(productData.id);
         if (quantity > 0) {
-            setCartProducts(
-                cartProducts?.map((product) =>
-                    product.id === id
-                        ? { ...product, quantity: product.quantity - 1 }
-                        : product
+            setItems(
+                items?.map((item) =>
+                    item.product.id === productData.id
+                        ? { ...item, quantity: item.quantity - 1 }
+                        : item
                 )
             );
         } else {
-            return console.log("No Quantity Found");
+            return deleteFromCart(productData.id);
         }
     }
 
-    // function removeOneFromCart(id: string) {
-    //     const quantity = getProductQuantity(id);
-    //     if (quantity == 1) {
-    //         deleteFromCart(id);
-    //     } else {
-    //         setCartProducts(
-    //             cartProducts?.map((product) =>
-    //                 product.id === id
-    //                     ? { ...product, quantity: product.quantity - 1 }
-    //                     : product
-    //             )
-    //         );
-    //     }
-    // }
-
-    // function deleteFromCart(id: string) {
-    //     setCartProducts((cartProducts) =>
-    //         cartProducts?.filter((currentProduct) => {
-    //             return currentProduct.id != id;
-    //         })
-    //     );
-    // }
+    function deleteFromCart(id: string) {
+        const newItems = items.filter((item) => {
+            return item.product.id != id;
+        });
+        setItems(newItems);
+    }
 
     function getTotalCost() {
         let totalCost = 0;
-        cartProducts?.map((cartItem) => {
-            totalCost += cartItem.price * cartItem.quantity;
+        items.map((productData) => {
+            totalCost +=
+                (productData.product.price / 100) * productData.quantity;
         });
+        return totalCost;
     }
 
-    const contextValue = {
-        items: cartProducts,
+    const contextValue: cartContextValues = {
+        items: items,
         getProductQuantity,
         addOneToCart,
         removeOneFromCart,
