@@ -18,6 +18,29 @@ interface productValues {
 const CartModal = () => {
     const cart = useContext(CartContext);
 
+    const stripeCheckout = async () => {
+        const lineItems = cart.items;
+        await fetch(
+            "http://localhost:3000/api/stripe/create-checkout-session",
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(lineItems),
+            }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((response) => {
+                console.log(response.url);
+
+                if (response.url) {
+                    window.location.assign(response.url);
+                }
+            });
+    };
+
     return (
         <>
             <Modal.Header closeButton>
@@ -72,7 +95,7 @@ const CartModal = () => {
                 </h1>
             </Modal.Title>
             <Modal.Footer>
-                <Button>Checkout</Button>
+                <Button onClick={stripeCheckout}>Checkout</Button>
             </Modal.Footer>
         </>
     );

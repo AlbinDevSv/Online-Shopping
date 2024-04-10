@@ -12,27 +12,10 @@ interface productValues {
 }
 
 interface productValuesStripe {
-    id: string;
     images: string;
     name: string;
-    default_price: { unit_amount: number };
+    default_price: { id: string; unit_amount: number };
 }
-const stripeCheckout = async () => {
-    await fetch("http://localhost:3000/api/stripe/create-checkout-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-    })
-        .then((response) => {
-            return response.json();
-        })
-        .then((response) => {
-            console.log(response.url);
-
-            if (response.url) {
-                window.location.assign(response.url);
-            }
-        });
-};
 
 const HomePage = () => {
     const [products, setProducts] = useState<productValues[]>([]);
@@ -43,7 +26,7 @@ const HomePage = () => {
             // console.log(items);
             setProducts(
                 items.map((productData: productValuesStripe) => ({
-                    id: productData.id,
+                    id: productData.default_price.id,
                     name: productData.name,
                     image: productData.images[0],
                     price: productData.default_price.unit_amount,
@@ -62,9 +45,6 @@ const HomePage = () => {
                     </Col>
                 ))}
             </Row>
-            <Button onClick={stripeCheckout} variant="primary">
-                Dark
-            </Button>
         </>
     );
 };

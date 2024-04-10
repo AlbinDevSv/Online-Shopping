@@ -2,14 +2,14 @@ import { Card, Button, Container } from "react-bootstrap";
 import { useContext } from "react";
 import { CartContext } from "./CartContext";
 
+interface Iprops {
+    productData: productValues;
+}
 interface productValues {
     id: string;
     image: string;
     name: string;
     price: number;
-}
-interface Iprops {
-    productData: productValues;
 }
 
 const ProductCard = (props: Iprops) => {

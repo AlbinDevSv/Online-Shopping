@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { Button, Navbar, Nav, Modal } from "react-bootstrap";
+import { Button, Navbar, Nav, Modal, Badge } from "react-bootstrap";
 import { FaUserAlt } from "react-icons/fa";
 import { CartContext } from "./CartContext";
 import CartModal from "./CartModal";
 import { NavLink } from "react-router-dom";
-import { IoLogOut } from "react-icons/io5";
+import { FaShoppingCart } from "react-icons/fa";
 
 interface userDataValues {
     customerId: string;
@@ -14,12 +14,33 @@ interface userDataValues {
     password: string;
 }
 
+interface cartProductValues {
+    product: productValues;
+    quantity: number;
+}
+
+interface productValues {
+    id: string;
+    image: string;
+    name: string;
+    price: number;
+}
+
 const NavbarComponent = () => {
     const cart = useContext(CartContext);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [userData, setUserData] = useState<userDataValues>();
+    const [cartQuantity, setCartQuantity] = useState<number>(0);
+
+    useEffect(() => {
+        let quantity = 0;
+        cart.items.forEach((item: cartProductValues) => {
+            quantity += item.quantity;
+        });
+        setCartQuantity(quantity);
+    }, [cart.items]);
 
     async function handleLogout() {
         await fetch("http://localhost:3000/api/auth/logout", {
@@ -94,7 +115,18 @@ const NavbarComponent = () => {
                                 handleShow();
                             }}
                         >
-                            Cart {cart.items.length} Items
+                            <FaShoppingCart />
+                            {cartQuantity > 0 && (
+                                <Badge
+                                    bg=""
+                                    style={{
+                                        position: "absolute",
+                                        backgroundColor: "rgb(57, 177, 103)",
+                                    }}
+                                >
+                                    {cartQuantity}
+                                </Badge>
+                            )}
                         </Button>
                     </Nav>
                 </Navbar.Collapse>
