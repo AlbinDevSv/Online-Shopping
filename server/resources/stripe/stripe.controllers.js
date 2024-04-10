@@ -15,7 +15,7 @@ const createCheckoutSession = async (req, res) => {
         customer: req.session.user.customerId,
         mode: "payment",
         success_url: "http://localhost:5173/success",
-        cancel_url: "http://localhost:5173/cancel",
+        cancel_url: "http://localhost:5173/",
     });
     res.status(200).json({ url: session.url });
 };
