@@ -22,6 +22,23 @@ const RegisterPage = () => {
         } as userInputsValues);
     }
 
+    async function handleLogin() {
+        await fetch("http://localhost:3000/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(userInputs),
+        })
+            .then((response) => response.json())
+            .then((data) =>
+                data === "Wrong user or password"
+                    ? console.log("Something went wrong")
+                    : window.location.assign(data)
+            );
+    }
+
     async function handleFetch(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         console.log("handleFetch");
@@ -37,7 +54,7 @@ const RegisterPage = () => {
             .then((data) =>
                 data === "User already exist"
                     ? setErrorHandler(true)
-                    : window.location.assign(data)
+                    : handleLogin()
             );
     }
     return (

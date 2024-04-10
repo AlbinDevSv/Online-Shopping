@@ -1,6 +1,5 @@
 const express = require("express");
 const {
-    storeItems,
     createCheckoutSession,
     listAllProducts,
     listProduct,
@@ -8,7 +7,6 @@ const {
 
 const router = express.Router();
 
-router.get("/store-items", storeItems);
 router.get("/list-all-products", listAllProducts);
 router.post("/list-product", listProduct);
 router.post("/create-checkout-session", createCheckoutSession);

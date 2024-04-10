@@ -1,20 +1,9 @@
 [
-  {
-    "account_mail": "a@a.se",
-    "first_name": "a",
-    "last_name": "a",
-    "password": "$2b$10$f0IBIx5zy0ej5HV.db9mPO93j69Z5OK7mBARaSw78.unuAEkn4mQ6"
-  },
-  {
-    "account_mail": "s@s.se",
-    "first_name": "s",
-    "last_name": "s",
-    "password": "$2b$10$1I26.nWsWpaFewLdFqeMOueh2P553NwsMIT00JRHV51FLZ.6pW.VS"
-  },
-  {
-    "account_mail": "Albin@Albin.se",
-    "first_name": "Albin",
-    "last_name": "Svensson",
-    "password": "$2b$10$mfkoLemWddttPuWl1C2hwewp599uZhPe4UKLVmaFHdqilKPULvM5C"
-  }
+    {
+        "customerId": "cus_PtmMjAkICsIC2Y",
+        "account_mail": "Albin@Albin.se",
+        "first_name": "Albin",
+        "last_name": "Svensson",
+        "password": "$2b$10$.GJhYAf.aEfnpD716aelwOq.y/07YMy3IkTTuy1/coTSM0YfiXNpq"
+    }
 ]
