@@ -1,6 +1,5 @@
 import { Card, Button, Container } from "react-bootstrap";
-import getProductData from "../assets/getProductData";
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { CartContext } from "./CartContext";
 
 interface productValues {

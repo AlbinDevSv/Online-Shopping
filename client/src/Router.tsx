@@ -4,6 +4,10 @@ import NotFound from "./pages/NotFound";
 import { Layout } from "./pages/Layout";
 import CheckoutSuccess from "./pages/CheckoutSuccess";
 import CheckoutCancel from "./pages/CheckoutCancel";
+import LoginPage from "./pages/login/LoginPage";
+import RegisterPage from "./pages/login/RegisterPage";
+import LoginSuccess from "./pages/login/LoginSuccess";
+import LoginFailed from "./pages/login/LoginFailed";
 
 export const router = createBrowserRouter([
     {
@@ -19,12 +23,26 @@ export const router = createBrowserRouter([
             {
                 path: "/success",
                 element: <CheckoutSuccess />,
-                index: true,
             },
             {
                 path: "/cancel",
                 element: <CheckoutCancel />,
-                index: true,
+            },
+            {
+                path: "/login",
+                element: <LoginPage />,
+            },
+            {
+                path: "/register",
+                element: <RegisterPage />,
+            },
+            {
+                path: "/register/failed",
+                element: <LoginFailed />,
+            },
+            {
+                path: "/register/success",
+                element: <LoginSuccess />,
             },
         ],
     },

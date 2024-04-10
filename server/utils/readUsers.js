@@ -5,7 +5,7 @@ const readUsers = async () => {
     const users = JSON.parse(data);
 
     if (!users || users.length <= 0) {
-        return "No users found";
+        return [];
     }
 
     return users;

@@ -1,18 +1,17 @@
-import React, { useContext, useState } from "react";
-import { Button, Navbar, Nav, Modal, Container } from "react-bootstrap";
-import { FaTrashAlt } from "react-icons/fa";
+import { useContext, useEffect, useState } from "react";
+import { Button, Navbar, Nav, Modal } from "react-bootstrap";
+import { FaUserAlt } from "react-icons/fa";
 import { CartContext } from "./CartContext";
+import CartModal from "./CartModal";
+import { NavLink } from "react-router-dom";
+import { IoLogOut } from "react-icons/io5";
 
-interface cartProductValues {
-    product: productValues;
-    quantity: number;
-}
-
-interface productValues {
-    id: string;
-    image: string;
-    name: string;
-    price: number;
+interface userDataValues {
+    customerId: string;
+    account_mail: string;
+    first_name: string;
+    last_name: string;
+    password: string;
 }
 
 const NavbarComponent = () => {
@@ -20,14 +19,76 @@ const NavbarComponent = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [userData, setUserData] = useState<userDataValues>();
+
+    async function handleLogout() {
+        await fetch("http://localhost:3000/api/auth/logout", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+        });
+
+        setUserData(undefined);
+    }
+    useEffect(() => {
+        async function authFetch() {
+            await fetch("http://localhost:3000/api/auth/authorize", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+            })
+                .then((response) => response.json())
+                .then((data) => setUserData(data));
+        }
+
+        authFetch();
+    }, []);
 
     return (
         <>
-            <Navbar expand="sm">
+            <Navbar
+                expand="sm"
+                style={{
+                    marginBottom: "20px",
+                    marginTop: "20px",
+                    backgroundColor: "rgb(219, 219, 219)",
+                    paddingLeft: "20px",
+                    paddingRight: "20px",
+                    border: "1px solid grey",
+                    borderRadius: "5px",
+                }}
+            >
                 <Navbar.Brand href="/">Online Shopping</Navbar.Brand>
                 <Navbar.Toggle />
+
                 <Navbar.Collapse className="justify-content-end">
                     <Nav>
+                        {userData ? (
+                            <>
+                                <Navbar.Text style={{}}>
+                                    <FaUserAlt
+                                        style={{ marginRight: "10px" }}
+                                    />
+                                    {userData?.first_name}
+                                </Navbar.Text>
+                                <Button
+                                    onClick={() => handleLogout()}
+                                    style={{
+                                        marginRight: "20px",
+                                        marginLeft: "20px",
+                                    }}
+                                >
+                                    Logout
+                                </Button>
+                            </>
+                        ) : (
+                            <NavLink to="/login">
+                                <Button style={{ marginRight: "20px" }}>
+                                    Login
+                                </Button>
+                            </NavLink>
+                        )}
+
                         <Button
                             onClick={() => {
                                 handleShow();
@@ -39,60 +100,7 @@ const NavbarComponent = () => {
                 </Navbar.Collapse>
             </Navbar>
             <Modal show={show} onHide={handleClose} fullscreen={"md-down"}>
-                <Modal.Header closeButton>
-                    <Modal.Title>
-                        <h1>Shopping Cart</h1>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <h1>Items:</h1>
-                    <ul>
-                        {cart.items.map((item: cartProductValues, index) => (
-                            <Modal.Body key={index}>
-                                <Container className="d-flex">
-                                    <img
-                                        src={`${item.product.image}`}
-                                        alt=""
-                                        style={{
-                                            width: "25%",
-                                            height: "6rem",
-                                        }}
-                                    />
-                                    <div
-                                        style={{
-                                            width: "50%",
-                                            height: "6rem",
-                                            marginLeft: "2rem",
-                                        }}
-                                    >
-                                        <h4>{item.product.name}</h4>
-                                        <p>Quantity: {item.quantity}</p>
-                                        <p>
-                                            Price:{" "}
-                                            {(item.product.price / 100) *
-                                                item.quantity}{" "}
-                                            SEK
-                                        </p>
-                                    </div>
-                                    <FaTrashAlt
-                                        onClick={() =>
-                                            cart.deleteFromCart(item.product.id)
-                                        }
-                                        style={{ fontSize: "20px" }}
-                                    />
-                                </Container>
-                            </Modal.Body>
-                        ))}
-                    </ul>
-                </Modal.Body>
-                <Modal.Title>
-                    <h1 style={{ textAlign: "end", marginRight: "20px" }}>
-                        Total: {cart.getTotalCost()} SEK
-                    </h1>
-                </Modal.Title>
-                <Modal.Footer>
-                    <Button>Checkout</Button>
-                </Modal.Footer>
+                <CartModal></CartModal>
             </Modal>
         </>
     );

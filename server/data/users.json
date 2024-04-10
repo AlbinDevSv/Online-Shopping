@@ -1,10 +1,9 @@
 [
-  {
-    "name": "Gunnar",
-    "lastName": "Gunnarsson"
-  },
-  {
-    "email": "Test.test@test.se",
-    "password": "$2b$10$XYnqiEwq.CUGUA30YxFXzeQkZa2hizVVogUALOqzPcWReryHG7FMy"
-  }
+    {
+        "customerId": "cus_PtmMjAkICsIC2Y",
+        "account_mail": "Albin@Albin.se",
+        "first_name": "Albin",
+        "last_name": "Svensson",
+        "password": "$2b$10$.GJhYAf.aEfnpD716aelwOq.y/07YMy3IkTTuy1/coTSM0YfiXNpq"
+    }
 ]
