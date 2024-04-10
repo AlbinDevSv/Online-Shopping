@@ -4,18 +4,26 @@ const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 // Create session
 const createCheckoutSession = async (req, res) => {
     const cartItems = req.body;
+
+    let lineItems = [];
+    cartItems.map((item) =>
+        lineItems.push({ price: item.product.id, quantity: item.quantity })
+    );
+    console.log(lineItems);
     const session = await stripe.checkout.sessions.create({
-        line_items: cartItems,
+        line_items: lineItems,
+        customer: req.session.user.customerId,
         mode: "payment",
         success_url: "http://localhost:5173/success",
         cancel_url: "http://localhost:5173/cancel",
     });
-    res.send(JSON.stringify({ url: session.url }));
+    res.status(200).json({ url: session.url });
 };
 
 // Returns all products in a list
 const listAllProducts = async (req, res) => {
     products = await stripe.products.list({ expand: ["data.default_price"] });
+    console.log(products.data);
     res.status(200).json(products.data);
 };
 
