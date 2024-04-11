@@ -132,7 +132,7 @@ const NavbarComponent = () => {
                 </Navbar.Collapse>
             </Navbar>
             <Modal show={show} onHide={handleClose} fullscreen={"md-down"}>
-                <CartModal></CartModal>
+                <CartModal auth={userData?.account_mail}></CartModal>
             </Modal>
         </>
     );

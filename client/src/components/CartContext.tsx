@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useState } from "react";
+import { PropsWithChildren, createContext, useEffect, useState } from "react";
 
 interface cartContextValues {
     items: cartProductValues[];
@@ -32,6 +32,24 @@ export const CartContext = createContext<cartContextValues>({
 
 export function CartProvider({ children }: PropsWithChildren) {
     const [items, setItems] = useState<cartProductValues[]>([]);
+
+    console.log(Boolean(localStorage.getItem("cart")));
+    useEffect(() => {
+        if (localStorage.getItem("cart")) {
+            console.log("values");
+            const localCart = localStorage.getItem("cart");
+
+            setItems(JSON.parse(localCart));
+        } else {
+            localStorage.setItem("cart", JSON.stringify([]));
+            console.log("empty");
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("cart", JSON.stringify(items));
+    }, [items]);
+
     function getProductQuantity(id: string) {
         const quantity = items?.find(
             (item) => item.product.id === id

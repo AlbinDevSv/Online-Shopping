@@ -1,3 +1,5 @@
+const readOrders = require("../../utils/readOrders");
+const fs = require("fs").promises;
 require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
@@ -17,7 +19,47 @@ const createCheckoutSession = async (req, res) => {
         success_url: "http://localhost:5173/success",
         cancel_url: "http://localhost:5173/",
     });
-    res.status(200).json({ url: session.url });
+    res.status(200).json({ url: session.url, checkoutId: session.id });
+};
+
+//Retrieve Session
+const retrieveCheckoutSession = async (req, res) => {
+    const checkoutSessionId = req.body;
+    console.log(checkoutSessionId.orderId);
+    const session = await stripe.checkout.sessions.retrieve(
+        checkoutSessionId.orderId
+    );
+    const lineItems = await stripe.checkout.sessions.listLineItems(
+        checkoutSessionId.orderId
+    );
+    const orders = await readOrders();
+    if (session.payment_status != "paid") {
+        res.status(400).json("payment was declined");
+    } else {
+        const newOrder = {
+            orderId: session.id,
+            date: session.created,
+            customerId: session.customer,
+            products: lineItems.data.map((item) => ({
+                id: item.id,
+                name: item.description,
+                price: {
+                    id: item.price.id,
+                    unitAmount: item.price.unit_amount,
+                },
+                quantity: item.quantity,
+            })),
+            totalPrice: session.amount_total,
+        };
+
+        orders.push(newOrder);
+
+        await fs.writeFile(
+            "./data/orders.json",
+            JSON.stringify(orders, null, 2)
+        );
+        res.status(200).json("payment success");
+    }
 };
 
 // Returns all products in a list
@@ -52,4 +94,5 @@ module.exports = {
     createCheckoutSession,
     listAllProducts,
     listProduct,
+    retrieveCheckoutSession,
 };

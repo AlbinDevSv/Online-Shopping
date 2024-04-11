@@ -1,0 +1,46 @@
+[
+  {
+    "orderId": "cs_test_b1iQvcakW3RZWM50gAmW91ZpQCWksOrOeJD1GrDDBgBx8xtBtNJnDios7i",
+    "date": 1712847313,
+    "customerId": "cus_PtmMjAkICsIC2Y",
+    "products": [
+      {
+        "id": "li_1P4P1xBfJpeWlVGVm2qrgJDu",
+        "name": "R2-D2",
+        "price": {
+          "id": "price_1P30flBfJpeWlVGVdlJkjuhn",
+          "unitAmount": 40000
+        },
+        "quantity": 1
+      },
+      {
+        "id": "li_1P4P1xBfJpeWlVGVBg0y9JZI",
+        "name": "Robocop",
+        "price": {
+          "id": "price_1P30gfBfJpeWlVGVcU4qsZZg",
+          "unitAmount": 20000
+        },
+        "quantity": 1
+      },
+      {
+        "id": "li_1P4P1xBfJpeWlVGVV7aYbpAp",
+        "name": "Dalek",
+        "price": {
+          "id": "price_1P3NZvBfJpeWlVGVhqpH8EDx",
+          "unitAmount": 50000
+        },
+        "quantity": 1
+      },
+      {
+        "id": "li_1P4P1xBfJpeWlVGVIS3haOTC",
+        "name": "T-3000",
+        "price": {
+          "id": "price_1P30fTBfJpeWlVGVKcNklQbv",
+          "unitAmount": 2000
+        },
+        "quantity": 1
+      }
+    ],
+    "totalPrice": 112000
+  }
+]
