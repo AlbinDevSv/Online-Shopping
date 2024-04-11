@@ -17,7 +17,19 @@ const createCheckoutSession = async (req, res) => {
         success_url: "http://localhost:5173/success",
         cancel_url: "http://localhost:5173/",
     });
-    res.status(200).json({ url: session.url });
+    res.status(200).json({ url: session.url, checkoutId: session.id });
+};
+
+//Retrieve Session
+const retrieveCheckoutSession = async (req, res) => {
+    const checkoutSessionId = req.body;
+    const session = await stripe.checkout.session.retrieve(checkoutSessionId);
+
+    if (session.payment_status === "unpaid") {
+        res.status(400).json("payment was declined");
+    } else {
+        res.status(200).json("payment success");
+    }
 };
 
 // Returns all products in a list
@@ -52,4 +64,5 @@ module.exports = {
     createCheckoutSession,
     listAllProducts,
     listProduct,
+    retrieveCheckoutSession,
 };

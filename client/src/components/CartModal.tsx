@@ -15,7 +15,9 @@ interface productValues {
     price: number;
 }
 
-const CartModal = () => {
+const CartModal = (props: { auth: string }) => {
+    console.log(props);
+
     const cart = useContext(CartContext);
 
     const stripeCheckout = async () => {
@@ -36,7 +38,7 @@ const CartModal = () => {
                 console.log(response.url);
 
                 if (response.url) {
-                    window.location.assign(response.url);
+                        window.location.assign(response.url);
                 }
             });
     };
@@ -95,7 +97,11 @@ const CartModal = () => {
                 </h1>
             </Modal.Title>
             <Modal.Footer>
-                <Button onClick={stripeCheckout}>Checkout</Button>
+                {props.auth ? (
+                    <Button onClick={stripeCheckout}>Checkout</Button>
+                ) : (
+                    <p>You need to login to continue</p>
+                )}
             </Modal.Footer>
         </>
     );

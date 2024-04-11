@@ -35,7 +35,9 @@ const RegisterPage = () => {
             .then((data) =>
                 data === "Wrong user or password"
                     ? console.log("Something went wrong")
-                    : window.location.assign(data)
+                    : window.location.assign(
+                          "http://localhost:5173/register/success"
+                      )
             );
     }
 
