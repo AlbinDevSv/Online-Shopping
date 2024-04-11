@@ -1,3 +1,5 @@
+const readOrders = require("../../utils/readOrders");
+const fs = require("fs").promises;
 require("dotenv").config();
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
@@ -23,11 +25,22 @@ const createCheckoutSession = async (req, res) => {
 //Retrieve Session
 const retrieveCheckoutSession = async (req, res) => {
     const checkoutSessionId = req.body;
-    const session = await stripe.checkout.session.retrieve(checkoutSessionId);
-
+    console.log(checkoutSessionId.orderId);
+    const session = await stripe.checkout.sessions.retrieve(
+        checkoutSessionId.orderId
+    );
+    const orders = await readOrders();
     if (session.payment_status === "unpaid") {
         res.status(400).json("payment was declined");
     } else {
+        const newOrder = { orderId: session.id };
+
+        orders.push(newOrder);
+
+        await fs.writeFile(
+            "./data/orders.json",
+            JSON.stringify(orders, null, 2)
+        );
         res.status(200).json("payment success");
     }
 };

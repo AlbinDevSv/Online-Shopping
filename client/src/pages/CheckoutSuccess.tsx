@@ -16,6 +16,35 @@ const CheckoutSuccess = () => {
         };
     }, [timer]);
 
+    useEffect(() => {
+        async function fetchCheckoutOrder() {
+            const orderId = localStorage.getItem("orderId");
+            if (orderId) {
+                console.log(orderId);
+
+                await fetch(
+                    "http://localhost:3000/api/stripe/retrieve-checkout-session",
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ orderId }),
+                    }
+                )
+                    .then((response) => response.json())
+                    .then((data) => {
+                        console.log(data);
+                        if (data === "payment success") {
+                            localStorage.removeItem("orderId");
+                        }
+                    });
+            } else {
+                return;
+            }
+        }
+
+        fetchCheckoutOrder();
+    }, []);
+
     if (timer === 0) {
         window.location.assign("http://localhost:5173/");
     }

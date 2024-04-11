@@ -36,9 +36,9 @@ const CartModal = (props: { auth: string }) => {
             })
             .then((response) => {
                 console.log(response.url);
-
+                localStorage.setItem("orderId", response.checkoutId);
                 if (response.url) {
-                        window.location.assign(response.url);
+                    window.location.assign(response.url);
                 }
             });
     };
