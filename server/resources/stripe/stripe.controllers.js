@@ -29,11 +29,28 @@ const retrieveCheckoutSession = async (req, res) => {
     const session = await stripe.checkout.sessions.retrieve(
         checkoutSessionId.orderId
     );
+    const lineItems = await stripe.checkout.sessions.listLineItems(
+        checkoutSessionId.orderId
+    );
     const orders = await readOrders();
-    if (session.payment_status === "unpaid") {
+    if (session.payment_status != "paid") {
         res.status(400).json("payment was declined");
     } else {
-        const newOrder = { orderId: session.id };
+        const newOrder = {
+            orderId: session.id,
+            date: session.created,
+            customerId: session.customer,
+            products: lineItems.data.map((item) => ({
+                id: item.id,
+                name: item.description,
+                price: {
+                    id: item.price.id,
+                    unitAmount: item.price.unit_amount,
+                },
+                quantity: item.quantity,
+            })),
+            totalPrice: session.amount_total,
+        };
 
         orders.push(newOrder);
 
