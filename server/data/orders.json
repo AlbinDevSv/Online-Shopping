@@ -1,20 +1,11 @@
 [
   {
-    "orderId": "cs_test_b1iQvcakW3RZWM50gAmW91ZpQCWksOrOeJD1GrDDBgBx8xtBtNJnDios7i",
-    "date": 1712847313,
+    "orderId": "cs_test_b147mtKdDrOc0RtExyd3IWxs3rzxRFd9vpdANXqSqLxkLKIc1Q22PP8V35",
+    "date": "12-4-2024",
     "customerId": "cus_PtmMjAkICsIC2Y",
     "products": [
       {
-        "id": "li_1P4P1xBfJpeWlVGVm2qrgJDu",
-        "name": "R2-D2",
-        "price": {
-          "id": "price_1P30flBfJpeWlVGVdlJkjuhn",
-          "unitAmount": 40000
-        },
-        "quantity": 1
-      },
-      {
-        "id": "li_1P4P1xBfJpeWlVGVBg0y9JZI",
+        "id": "li_1P4j3qBfJpeWlVGVMMK0fEtl",
         "name": "Robocop",
         "price": {
           "id": "price_1P30gfBfJpeWlVGVcU4qsZZg",
@@ -23,24 +14,33 @@
         "quantity": 1
       },
       {
-        "id": "li_1P4P1xBfJpeWlVGVV7aYbpAp",
-        "name": "Dalek",
-        "price": {
-          "id": "price_1P3NZvBfJpeWlVGVhqpH8EDx",
-          "unitAmount": 50000
-        },
-        "quantity": 1
-      },
-      {
-        "id": "li_1P4P1xBfJpeWlVGVIS3haOTC",
+        "id": "li_1P4j3qBfJpeWlVGVDEWRBezu",
         "name": "T-3000",
         "price": {
           "id": "price_1P30fTBfJpeWlVGVKcNklQbv",
           "unitAmount": 2000
         },
         "quantity": 1
+      },
+      {
+        "id": "li_1P4j3qBfJpeWlVGVoHSMiVhu",
+        "name": "T-800",
+        "price": {
+          "id": "price_1P30eoBfJpeWlVGVXXQM8idC",
+          "unitAmount": 20000
+        },
+        "quantity": 1
+      },
+      {
+        "id": "li_1P4j3qBfJpeWlVGVP6kKnEkh",
+        "name": "R2-D2",
+        "price": {
+          "id": "price_1P30flBfJpeWlVGVdlJkjuhn",
+          "unitAmount": 40000
+        },
+        "quantity": 4
       }
     ],
-    "totalPrice": 112000
+    "totalPrice": 202000
   }
 ]

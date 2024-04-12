@@ -36,9 +36,15 @@ const retrieveCheckoutSession = async (req, res) => {
     if (session.payment_status != "paid") {
         res.status(400).json("payment was declined");
     } else {
+        const date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+        let currentDate = `${day}-${month}-${year}`;
+
         const newOrder = {
             orderId: session.id,
-            date: session.created,
+            date: currentDate,
             customerId: session.customer,
             products: lineItems.data.map((item) => ({
                 id: item.id,
